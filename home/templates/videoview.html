@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ video.title }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #141414;
+            color: #fff;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #202020;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 700;
+            color: #e50914;
+        }
+
+        .navbar-brand a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .navbar-upload {
+            background-color: transparent;
+            color: #fff;
+            border: 1px solid #e50914;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-upload:hover {
+            background-color: #e50914;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #202020;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .video-player {
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            position: relative;
+            background-color: #000;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .video-player video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-info {
+            padding: 20px 0;
+        }
+
+        .video-info h2 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .video-info p {
+            font-size: 16px;
+            color: #aaa;
+            margin: 10px 0 0 0;
+        }
+
+        .video-views {
+            font-size: 16px;
+            color: #aaa;
+            margin-top: 10px;
+        }
+
+        /* Custom Video Controls */
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .video-controls button {
+            background-color: transparent;
+            color: #fff;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .video-controls button:hover {
+            color: #e50914;
+        }
+
+        /* Comment Section */
+        .comments-section {
+            margin-top: 40px;
+        }
+
+        .comments-section h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .comment {
+            padding: 10px;
+            border-bottom: 1px solid #333;
+        }
+
+        .comment p {
+            margin: 5px 0;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #333;
+            background-color: #141414;
+            color: #fff;
+        }
+
+        .comment-form button {
+            background-color: #e50914;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .comment-form button:hover {
+            background-color: #b00610;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand"><a href="{% url 'home' %}">Mytube</a></div>
+    </nav>
+
+    <div class="container">
+        <div class="video-player">
+            <video controls>
+                <source src="{{ video.video.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-controls">
+                <!-- ... video controls ... -->
+            </div>
+        </div>
+        <div class="video-info">
+            <h2>{{ video.title }}</h2>
+            <p>{{ video.description }}</p>
+            <p class="video-views"><i class="fas fa-eye"></i> {{ video.views }} views</p>
+        </div>
+
+        <div class="comments-section">
+            <h3>Comments</h3>
+            <div class="comments">
+                {% for comment in comments %}
+                <div class="comment">
+                    <p><strong>{{ comment.author.username }}</strong></p>
+                    <p>{{ comment.body }}</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="comment-form">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Add Comment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

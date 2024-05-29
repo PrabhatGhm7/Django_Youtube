@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Videos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .video-card {
+            background-color: #fff;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .video-thumbnail img {
+            width: 100%;
+            height: auto;
+            border-bottom: 1px solid #ddd;
+        }
+        .video-info {
+            padding: 15px;
+        }
+        .video-info h2 {
+            margin: 0 0 10px;
+            font-size: 18px;
+        }
+        .video-info p {
+            margin: 0;
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Videos</h1>
+        {% for video in videos %}
+        <div class="video-card">
+            <div class="video-thumbnail">
+                <img src="{{ video.thumbnail.url }}" alt="{{ video.title }}">
+            </div>
+            <div class="video-info">
+                <h2>{{ video.title }}</h2>
+                <p>{{ video.views }} views</p>
+            </div>
+        </div>
+        {% empty %}
+        <p>No videos found.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
